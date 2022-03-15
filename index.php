@@ -1,7 +1,13 @@
 <?php
-// PVA's internal Vehicle Status Board
+/*
+-----------------------------------------------------
+PVA's internal Vehicle Status Board
+-----------------------------------------------------
+
+// JSON data feed URL
 $url = "https://www.monroecounty.gov/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
 
+// set up curl request
 $curl = curl_init($url);
 curl_setopt($curl, CURLOPT_URL, $url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -11,12 +17,15 @@ $headers = array(
    "Access-Control-Allow-Origin: *",
 );
 curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
 //for debug only!
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
+// call curl
 $json = curl_exec($curl);
-// debug
+
+// verbose errors
 if(curl_exec($curl) === false)
 {
     echo 'Curl error: ' . curl_error($ch);
@@ -32,6 +41,7 @@ curl_close($curl);
 // decode json data into usable object
 $json_data = json_decode($json,true);
 
+// ------------LOCAL JSON TESTING ---------------
 // Read the JSON file
 //$json = file_get_contents('data.json');
 
