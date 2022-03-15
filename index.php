@@ -5,7 +5,7 @@ PVA's internal Vehicle Status Board
 -----------------------------------------------------
 */
 // JSON data feed URL
-$url = "https://www.monroecounty.gov/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
+$url = "https://www2.monroecounty.gov/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
 
 // set up curl request
 $curl = curl_init($url);
@@ -25,7 +25,7 @@ curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 // call curl
 $json = curl_exec($curl);
 
-// verbose errors
+/* verbose errors
 if(curl_exec($curl) === false)
 {
     echo 'Curl error: ' . curl_error($ch);
@@ -33,7 +33,7 @@ if(curl_exec($curl) === false)
 else
 {
     echo 'Operation completed without any errors';
-}
+} */
 
 // close curl
 curl_close($curl);
@@ -49,7 +49,7 @@ $json_data = json_decode($json,true);
 //$json_data = json_decode($json,true);
 
 // Print the JSON data
-print_r($json_data);
+// print_r($json);
 
 ?>
 <!doctype html>
@@ -62,6 +62,10 @@ print_r($json_data);
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<style>
+		td.level {
+			text-align: center;
+			font-weight: 600;
+			}
 		.ALS {
 			background-color: #FD6500 !important;
 			color: #ffffff;
@@ -80,11 +84,21 @@ print_r($json_data);
 		h2.duty-crew-heading, h2.on-call-heading, h2.on-duty-heading {
 			text-align: center;
 		}
+		h2.duty-crew-heading {
+			padding: 2rem 0 0 0;
+		}
+		.vehicle {
+			padding: 10px 0 0 0;
+		}
 		.card {
 			border: none;
+			background: none;
 		}
 		.vehicle-card > .card > span.fa-solid {
 			font-size: 2rem;
+		}
+		.card-body {
+			padding: 0;
 		}
 	</style>
     <title>PVA Status Board</title>
@@ -103,12 +117,10 @@ print_r($json_data);
 							$search_val_chief = '2181';
 							if($json_data) {
 								foreach($json_data['currentdata'] as $currentdata) {
-									if ($currentdata['vehicle_id'] == $search_val_chief) {
+									if ($currentdata['vehicle_id'] == $search_val_chief && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
 										echo("<tr><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 									}
 								}
-							} else {
-								echo("<tr><td><i>none statused</i></td></tr>");
 							}
 						?>
 					</table>
@@ -119,16 +131,14 @@ print_r($json_data);
 					<h2 class="on-duty-heading">Shift Supervisor</h2>
 					<table class="table">
 						<?php
-							// iterate through JSON currentdata and populate crew data for MED36
-							$search_val_supv = '1450';
+							// iterate through JSON currentdata and populate crew data for the On-Duty Supervisor
+							$search_val_supv = '2294';
 							if($json_data) {
 								foreach($json_data['currentdata'] as $currentdata) {
-									if ($currentdata['vehicle_id'] == $search_val_supv) {
+									if ($currentdata['vehicle_id'] == $search_val_supv && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
 										echo("<tr><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 									}
 								}
-							} else {
-								echo("<tr><td><i>none statused</i></td></tr>");
 							}
 						?>
 					</table>
@@ -138,7 +148,7 @@ print_r($json_data);
 	</div>
 	<h2 class="duty-crew-heading">On-Duty Crews</h2>
 	<div class="vehicles container">
-		<div id="3859" class="vehicle row">
+		<div id="3859" class="vehicle row d-flex align-items-center">
 			<div class="vehicle-card col-1">
 				<div class="card text-center">
 					<span class="fa-solid fa-truck-medical"></span>
@@ -154,18 +164,16 @@ print_r($json_data);
 						$search_val_3859 = '1990';
 						if($json_data) {
 							foreach($json_data['currentdata'] as $currentdata) {
-								if ($currentdata['vehicle_id'] == $search_val_3859) {
-									echo("<tr><td class=\"".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td><td>".$currentdata['notes']."</tr>");
+								if ($currentdata['vehicle_id'] == $search_val_3859 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td><td>".$currentdata['notes']."</tr>");
 								}
 							}
-						} else {
-							echo("<tr><td><i>no crew statused</i></td></tr>");
 						}
 					?>
 				</table>
 			</div>
 		</div>
-		<div id="3869" class="vehicle row">
+		<div id="3869" class="vehicle row d-flex align-items-center" style="background: #efefef;">
 			<div class="vehicle-card col-1">
 				<div class="card text-center">
 					<span class="fa-solid fa-truck-medical"></span>
@@ -181,18 +189,16 @@ print_r($json_data);
 						$search_val_3869 = '1991';
 						if($json_data) {
 							foreach($json_data['currentdata'] as $currentdata) {
-								if ($currentdata['vehicle_id'] == $search_val_3869) {
-									echo("<tr><td class=\"".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+								if ($currentdata['vehicle_id'] == $search_val_3869 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 								}
 							}
-						} else {
-							echo("<tr><td><i>no crew statused</i></td></tr>");
 						}
 					?>
 				</table>
 			</div>
 		</div>
-		<div id="3879" class="vehicle row">
+		<div id="3879" class="vehicle row d-flex align-items-center">
 			<div class="vehicle-card col-1">
 				<div class="card text-center">
 					<span class="fa-solid fa-truck-medical"></span>
@@ -208,18 +214,16 @@ print_r($json_data);
 						$search_val_3879 = '1992';
 						if($json_data) {
 							foreach($json_data['currentdata'] as $currentdata) {
-								if ($currentdata['vehicle_id'] == $search_val_3879) {
-									echo("<tr><td class=\"".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+								if ($currentdata['vehicle_id'] == $search_val_3879 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 								}
 							}
-						} else {
-							echo("<tr><td><i>no crew statused</i></td></tr>");
 						}
 					?>
 				</table>
 			</div>
 		</div>
-		<div id="MED36" class="vehicle row">
+		<div id="MED36" class="vehicle row d-flex align-items-center" style="background: #efefef;">
 			<div class="vehicle-card col-1">
 				<div class="card text-center">
 					<span class="fa-solid fa-car-side"></span>
@@ -235,18 +239,16 @@ print_r($json_data);
 						$search_val_36 = '1551';
 						if($json_data) {
 							foreach($json_data['currentdata'] as $currentdata) {
-								if ($currentdata['vehicle_id'] == $search_val_36) {
-									echo("<tr><td class=\"".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+								if ($currentdata['vehicle_id'] == $search_val_36 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									echo("<tr><td class=\" level".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 								}
 							}
-						} else {
-							echo("<tr><td><i>no crew statused</i></td></tr>");
 						}
 					?>
 				</table>
 			</div>
 		</div>
-		<div id="MED38" class="vehicle row">
+		<div id="MED38" class="vehicle row d-flex align-items-center">
 			<div class="vehicle-card col-1">
 				<div class="card text-center">
 					<span class="fa-solid fa-car-side"></span>
@@ -262,12 +264,10 @@ print_r($json_data);
 						$search_val_38 = '1552';
 						if($json_data) {
 							foreach($json_data['currentdata'] as $currentdata) {
-								if ($currentdata['vehicle_id'] == $search_val_38) {
-									echo("<tr><td class=\"".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+								if ($currentdata['vehicle_id'] == $search_val_38 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									echo("<tr><td class=\" level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 								}
 							}
-						} else {
-							echo("<tr><td><i>no crew statused</i></td></tr>");
 						}
 					?>
 				</table>
