@@ -121,8 +121,10 @@ $json_data = json_decode($json,true);
 							$search_val_chief = '2181';
 							if($json_data) {
 								foreach($json_data['currentdata'] as $currentdata) {
-									if ($currentdata['vehicle_id'] == $search_val_chief && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									if ($currentdata['vehicle_id'] == $search_val_chief && strtotime($currentdata['in']) < strtotime("now")) {
 										echo("<tr><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+									} elseif ($currentdata['vehicle_id'] == $search_val_chief && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+										echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 									}
 								}
 							}
@@ -139,8 +141,10 @@ $json_data = json_decode($json,true);
 							$search_val_supv = '2294';
 							if($json_data) {
 								foreach($json_data['currentdata'] as $currentdata) {
-									if ($currentdata['vehicle_id'] == $search_val_supv && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+									if ($currentdata['vehicle_id'] == $search_val_supv && strtotime($currentdata['in']) < strtotime("now")) {
 										echo("<tr><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+									} elseif ($currentdata['vehicle_id'] == $search_val_supv && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+										echo("<tr class=\"opacity-50\"><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 									}
 								}
 							}
@@ -171,8 +175,10 @@ $json_data = json_decode($json,true);
 									$search_val_3859 = '1990';
 									if($json_data) {
 										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_3859 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+											if ($currentdata['vehicle_id'] == $search_val_3859 && strtotime($currentdata['in']) < strtotime("now")) {
 												echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+											} elseif ($currentdata['vehicle_id'] == $search_val_3859 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 											}
 										}
 									}
@@ -196,8 +202,10 @@ $json_data = json_decode($json,true);
 									$search_val_3869 = '1991';
 									if($json_data) {
 										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_3869 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+											if ($currentdata['vehicle_id'] == $search_val_3869 && strtotime($currentdata['in']) < strtotime("now")) {
 												echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+											} elseif ($currentdata['vehicle_id'] == $search_val_3869 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 											}
 										}
 									}
@@ -221,8 +229,10 @@ $json_data = json_decode($json,true);
 									$search_val_3879 = '1992';
 									if($json_data) {
 										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_3879 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+											if ($currentdata['vehicle_id'] == $search_val_3879 && strtotime($currentdata['in']) < strtotime("now")) {
 												echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+											} elseif ($currentdata['vehicle_id'] == $search_val_3879 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 											}
 										}
 									}
@@ -246,8 +256,10 @@ $json_data = json_decode($json,true);
 									$search_val_36 = '1551';
 									if($json_data) {
 										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_36 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+											if ($currentdata['vehicle_id'] == $search_val_36 && strtotime($currentdata['in']) < strtotime("now")) {
 												echo("<tr><td class=\" level".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+											} elseif ($currentdata['vehicle_id'] == $search_val_36 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 											}
 										}
 									}
@@ -271,8 +283,10 @@ $json_data = json_decode($json,true);
 									$search_val_38 = '1552';
 									if($json_data) {
 										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_38 && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+											if ($currentdata['vehicle_id'] == $search_val_38 && strtotime($currentdata['in']) < strtotime("now")) {
 												echo("<tr><td class=\" level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
+											} elseif ($currentdata['vehicle_id'] == $search_val_38 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
+												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
 											}
 										}
 									}
