@@ -63,7 +63,7 @@ $json_data = json_decode($json,true);
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<style>
-		.supervisors.container {
+		.supervisors {
 			margin-bottom: 2rem;
 		}
 		td.level {
@@ -84,6 +84,7 @@ $json_data = json_decode($json,true);
 		}
 		.bucket {
 			border: 1px solid rgba(0,0,0,.125);
+			background: #efefef;
 		}
 		h2.duty-crew-heading, h2.on-call-heading, h2.on-duty-heading {
 			text-align: center;
@@ -109,9 +110,9 @@ $json_data = json_decode($json,true);
   </head>
   <body>
 	<h1 class="text-center">PVA Status Board</h1>
-	<div class="supervisors container">
+	<div class="supervisors container-fluid">
 		<div class="row">
-			<div class="col">
+			<div class="col-6">
 					<div class="container-fluid bucket">
 					<h2 class="on-call-heading">On-Call Chief</h2>
 					<table class="table">
@@ -129,7 +130,7 @@ $json_data = json_decode($json,true);
 					</table>
 				</div> <!-- end .bucket -->
 			</div> <!-- end .col -->
-			<div class="col">
+			<div class="col-6">
 				<div class="container-fluid bucket">
 					<h2 class="on-duty-heading">Shift Supervisor</h2>
 					<table class="table">
