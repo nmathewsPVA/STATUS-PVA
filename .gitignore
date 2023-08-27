@@ -1,0 +1,5 @@
+# Intellij project directory
+.idea/
+
+# Environment config file
+.env
