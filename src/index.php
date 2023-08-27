@@ -4,8 +4,12 @@
 PVA's internal Vehicle Status Board
 -----------------------------------------------------
 */
+// Load configuration variables
+$api_host = getenv("API_HOST");
+if(!$api_host) echo "Error: API_HOST environment variable not set";
+
 // JSON data feed URL
-$url = "https://www2.monroecounty.gov/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
+$url = "https://$api_host/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
 
 // set up curl request
 $curl = curl_init($url);
