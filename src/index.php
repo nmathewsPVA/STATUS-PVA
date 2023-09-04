@@ -77,7 +77,7 @@ else
 curl_close($curl);
 
 // decode json data into usable object
-$json_data = json_decode($json,true);
+$json_data = json_decode($json);
 
 // ------------LOCAL JSON TESTING ---------------
 // Read the JSON file
