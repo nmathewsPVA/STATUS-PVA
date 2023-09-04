@@ -6,7 +6,10 @@ PVA's internal Vehicle Status Board
 */
 // Load configuration variables
 $api_host = getenv("API_HOST");
-if(!$api_host) echo "Error: API_HOST environment variable not set";
+$api_token = getenv("API_TOKEN");
+
+// Confirm configuration variables are set
+if(!$api_host || !$api_token) echo "Error: Ensure API_HOST and API_TOKEN environment variables are set";
 
 // JSON data feed URL
 $url = "https://$api_host/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
