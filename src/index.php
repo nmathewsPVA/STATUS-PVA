@@ -89,6 +89,46 @@ $json_data = json_decode($json);
 // Print the JSON data
 // print_r($json);
 
+/** Creates a Crew Table for an inputted shift search value.
+ * @param string $shiftSearchVal the search value for the desired shift of the Crew Table being created.
+ * @param mixed $json the JSON data provided from the API containing shift data.
+ * @param DateTime $currentTime the current time.
+ * @param DateTime $currentTimePlusTwoHours the current time plus two hours.
+ * @return void
+ * @throws Exception DateTime can technically throw an Exception, but with how the DateTime objects are created in this
+ * function, it should be unlikely for an Exception to occur.
+ */
+function createCrewTable(
+        string   $shiftSearchVal,
+        mixed    $json,
+        DateTime $currentTime,
+        DateTime $currentTimePlusTwoHours
+): void {
+    if($json) {
+        foreach($json->shifts as $shift) {
+            $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
+            $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
+            if ($shift->shift_name == $shiftSearchVal && $startTime < $currentTime && $currentTime < $endTime) { ?>
+                <tr>
+                    <td class=<?php echo "\"level $shift->position\"" ?>><?php echo $shift->position ?></td>
+                    <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+                    <td><?php echo $startTime->format("n/j  H:i") ?></td>
+                    <td><?php echo $endTime->format("n/j  H:i") ?></td>
+                </tr>
+            <?php } elseif ($shift->shift_name == $shiftSearchVal
+                && $startTime > $currentTime
+                && $startTime < $currentTimePlusTwoHours
+            ) { ?>
+                <tr class="opacity-50">
+                    <td class=<?php echo "\"level $shift->position\"" ?>><?php echo $shift->position ?></td>
+                    <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+                    <td><?php echo $startTime->format("n/j  H:i") ?></td>
+                    <td><?php echo $endTime->format("n/j  H:i") ?></td>
+                </tr>
+            <?php }
+        }
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -235,19 +275,9 @@ $json_data = json_decode($json);
 						</div> <!-- end vehicle-card -->
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
-								<?php
-									// iterate through JSON currentdata and populate crew data for 3859
-									$search_val_3859 = '1990';
-									if($json_data) {
-										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_3859 && strtotime($currentdata['in']) < strtotime("now")) {
-												echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											} elseif ($currentdata['vehicle_id'] == $search_val_3859 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											}
-										}
-									}
-								?>
+								<?php // iterate through JSON shifts and populate crew data for Crew 1
+                                createCrewTable("Crew 1", $json_data, $currentTime, $currentTimePlusTwoHours);
+                                ?>
 							</table>
 						</div> <!-- end crew-table-wrapper -->
 					</div> <!-- end #3859 -->
@@ -262,19 +292,9 @@ $json_data = json_decode($json);
 						</div> <!-- end .vehicle-card -->
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
-								<?php
-									// iterate through JSON currentdata and populate crew data for 3869
-									$search_val_3869 = '1991';
-									if($json_data) {
-										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_3869 && strtotime($currentdata['in']) < strtotime("now")) {
-												echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											} elseif ($currentdata['vehicle_id'] == $search_val_3869 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											}
-										}
-									}
-								?>
+                                <?php // iterate through JSON shifts and populate crew data for Crew 2
+                                createCrewTable("Crew 2", $json_data, $currentTime, $currentTimePlusTwoHours);
+                                ?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
 					</div> <!-- end #3869 -->
@@ -289,18 +309,8 @@ $json_data = json_decode($json);
 						</div>
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
-								<?php
-									// iterate through JSON currentdata and populate crew data for 3879
-									$search_val_3879 = '1992';
-									if($json_data) {
-										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_3879 && strtotime($currentdata['in']) < strtotime("now")) {
-												echo("<tr><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											} elseif ($currentdata['vehicle_id'] == $search_val_3879 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											}
-										}
-									}
+								<?php // iterate through JSON shifts and populate crew data for Crew 3
+                                createCrewTable("Crew 3", $json_data, $currentTime, $currentTimePlusTwoHours);
 								?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
@@ -316,18 +326,8 @@ $json_data = json_decode($json);
 						</div>
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
-								<?php
-									// iterate through JSON currentdata and populate crew data for MED36
-									$search_val_36 = '1551';
-									if($json_data) {
-										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_36 && strtotime($currentdata['in']) < strtotime("now")) {
-												echo("<tr><td class=\" level".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											} elseif ($currentdata['vehicle_id'] == $search_val_36 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											}
-										}
-									}
+								<?php // iterate through JSON shifts and populate crew data for Crew 4
+                                createCrewTable("Crew 4", $json_data, $currentTime, $currentTimePlusTwoHours);
 								?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
@@ -343,18 +343,8 @@ $json_data = json_decode($json);
 						</div>
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
-								<?php
-									// iterate through JSON currentdata and populate crew data for MED38
-									$search_val_38 = '1552';
-									if($json_data) {
-										foreach($json_data['currentdata'] as $currentdata) {
-											if ($currentdata['vehicle_id'] == $search_val_38 && strtotime($currentdata['in']) < strtotime("now")) {
-												echo("<tr><td class=\" level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											} elseif ($currentdata['vehicle_id'] == $search_val_38 && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-												echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-											}
-										}
-									}
+								<?php // iterate through JSON shifts and populate crew data for Crew 5
+                                createCrewTable("Crew 5", $json_data, $currentTime, $currentTimePlusTwoHours);
 								?>
 							</table>
 						</div> <!-- end crew-table-wrapper -->
