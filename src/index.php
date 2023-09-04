@@ -55,8 +55,8 @@ curl_setopt($curl, CURLOPT_URL, $url);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
 $headers = array(
-   "Accept: application/json",
-   "Access-Control-Allow-Origin: *",
+   "Content-Type: application/json",
+   "token: $api_token",
 );
 curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
