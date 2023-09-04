@@ -1,5 +1,5 @@
 # STATUS-PVA
-Internal crew status board that pulls from the Monroe County Ambulance Tracker.
+Internal crew status board that pulls from PVA's internal crew scheduler API.
 
 ## Configuration
 This application runs inside a Docker container. The following terminal commands are required to run this app locally:
