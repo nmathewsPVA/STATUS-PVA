@@ -11,6 +11,41 @@ $api_token = getenv("API_TOKEN");
 // Confirm configuration variables are set
 if(!$api_host || !$api_token) echo "Error: Ensure API_HOST and API_TOKEN environment variables are set";
 
+/** Return an Eastern Time Zone DataTimeZone object.
+ * @return DateTimeZone Eastern Time Zone.
+ */
+function estTimeZone(): DateTimeZone {
+    return new DateTimeZone("America/New_York");
+}
+
+/** Return a Coordinated Universal Time DataTimeZone object.
+ * @return DateTimeZone Coordinated Universal Time.
+ */
+function utcTimeZone(): DateTimeZone {
+    return new DateTimeZone("UTC");
+}
+
+/** Converts inputted DateTime to an Eastern Time Zone formatted DateTime.
+ * @param DateTime $dateTime
+ * @return DateTime Eastern Time Zone formatted DateTime.
+ */
+function convertToEst(DateTime $dateTime): DateTime {
+    return $dateTime->setTimezone(estTimeZone());
+}
+
+// Get current time
+$currentTime = new DateTime("now", estTimeZone());
+
+// Get current time plus two hours
+$currentTimePlusTwoHours = clone $currentTime;
+$twoHourInterval = DateInterval::createFromDateString("2 hours");
+$currentTimePlusTwoHours->add($twoHourInterval);
+
+// Get yesterday's date
+$yesterday = clone $currentTime;
+$oneDayInterval = DateInterval::createFromDateString("1 day");
+$yesterday->sub($oneDayInterval);
+
 // JSON data feed URL
 $url = "https://$api_host/etc/ambulance/json.php?u=PITE&p=s24.PITE.42";
 
