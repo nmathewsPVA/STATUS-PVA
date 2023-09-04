@@ -270,7 +270,7 @@ function createCrewTable(
 								<span class="fa-solid fa-truck-medical"></span>
 							</div> <!-- end .card -->
 							<div class="card-body">
-								<h5 class="card-title text-center">3859</h5>
+								<h5 class="card-title text-center">Crew 1</h5>
 							</div> <!-- end .card-body -->
 						</div> <!-- end vehicle-card -->
 						<div class="crew-table-wrapper col-11">
@@ -287,7 +287,7 @@ function createCrewTable(
 								<span class="fa-solid fa-truck-medical"></span>
 							</div> <!-- end card -->
 							<div class="card-body">
-								<h5 class="card-title text-center">3869</h5>
+								<h5 class="card-title text-center">Crew 2</h5>
 							</div> <!-- end card-body -->
 						</div> <!-- end .vehicle-card -->
 						<div class="crew-table-wrapper col-11">
@@ -304,7 +304,7 @@ function createCrewTable(
 								<span class="fa-solid fa-truck-medical"></span>
 							</div> <!-- end .card -->
 							<div class="card-body">
-								<h5 class="card-title text-center">3879</h5>
+								<h5 class="card-title text-center">Crew 3</h5>
 							</div> <!-- end .card-body -->
 						</div>
 						<div class="crew-table-wrapper col-11">
@@ -321,7 +321,7 @@ function createCrewTable(
 								<span class="fa-solid fa-car-side"></span>
 							</div> <!-- end .vehicle-card -->
 							<div class="card-body">
-								<h5 class="card-title text-center">MED36</h5>
+								<h5 class="card-title text-center">Crew 4</h5>
 							</div> <!-- end .card-body -->
 						</div>
 						<div class="crew-table-wrapper col-11">
@@ -338,7 +338,7 @@ function createCrewTable(
 								<span class="fa-solid fa-car-side"></span>
 							</div> <!-- end .vehicle-card -->
 							<div class="card-body">
-								<h5 class="card-title text-center">MED38</h5>
+								<h5 class="card-title text-center">Crew 5</h5>
 							</div> <!-- end .card-body -->
 						</div>
 						<div class="crew-table-wrapper col-11">
