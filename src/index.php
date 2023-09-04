@@ -151,22 +151,36 @@ $json_data = json_decode($json);
 	<div class="supervisors container-fluid">
 		<div class="row">
 			<div class="col-6">
-					<div class="container-fluid bucket">
-					<h2 class="on-call-heading">On-Call Chief</h2>
-					<table class="table">
-						<?php
-							// iterate through JSON currentdata and populate crew data for On-Call Chief
-							$search_val_chief = '2181';
-							if($json_data) {
-								foreach($json_data['currentdata'] as $currentdata) {
-									if ($currentdata['vehicle_id'] == $search_val_chief && strtotime($currentdata['in']) < strtotime("now")) {
-										echo("<tr><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-									} elseif ($currentdata['vehicle_id'] == $search_val_chief && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-										echo("<tr class=\"opacity-50\"><td class=\"level ".$currentdata['level']."\">".$currentdata['level']."</td><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-									}
-								}
-							}
-						?>
+                <div class="container-fluid bucket">
+                    <h2 class="on-call-heading">On-Call Chief</h2>
+                    <table class="table">
+                        <?php // iterate through JSON shifts and populate crew data for On-Call Chief
+                        $search_val_chief = "On-Call";
+                        if($json_data) {
+                            foreach($json_data->shifts as $shift) {
+                                $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
+                                $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
+                                if ($shift->position == $search_val_chief
+                                    && $startTime < $currentTime
+                                    && $currentTime < $endTime
+                                ) { ?>
+                                    <tr>
+                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
+                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
+                                    </tr>
+                                <?php } elseif ($shift->position == $search_val_chief
+                                    && $startTime > $currentTime
+                                    && $startTime < $currentTimePlusTwoHours
+                                ) { ?>
+                                    <tr class="opacity-50">
+                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
+                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
+                                    </tr>
+                                <?php }
+                            }
+                        } ?>
 					</table>
 				</div> <!-- end .bucket -->
 			</div> <!-- end .col -->
@@ -174,19 +188,32 @@ $json_data = json_decode($json);
 				<div class="container-fluid bucket">
 					<h2 class="on-duty-heading">Shift Supervisor</h2>
 					<table class="table">
-						<?php
-							// iterate through JSON currentdata and populate crew data for the On-Duty Supervisor
-							$search_val_supv = '2294';
-							if($json_data) {
-								foreach($json_data['currentdata'] as $currentdata) {
-									if ($currentdata['vehicle_id'] == $search_val_supv && strtotime($currentdata['in']) < strtotime("now")) {
-										echo("<tr><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-									} elseif ($currentdata['vehicle_id'] == $search_val_supv && strtotime($currentdata['in']) > strtotime(time()) && strtotime($currentdata['in']) < strtotime('+2 hour',time())) {
-										echo("<tr class=\"opacity-50\"><td>".$currentdata['first_name']." ".$currentdata['last_name']."</td><td>".$currentdata['phone']."</td><td>".date('n/j  H:i', strtotime($currentdata['in']))."</td><td>".date('n/j  H:i', strtotime($currentdata['out']))."</td></tr>");
-									}
-								}
-							}
-						?>
+						<?php // iterate through JSON shifts and populate crew data for On-Duty Supervisor
+                        if($json_data) {
+                            foreach($json_data->shifts as $shift) {
+                                $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
+                                $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
+                                if (isset($shift->observer)
+                                    && $startTime < $currentTime
+                                    && $currentTime < $endTime
+                                ) { ?>
+                                    <tr>
+                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
+                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
+                                    </tr>
+                                <?php } elseif (isset($shift->observer)
+                                    && $startTime > $currentTime
+                                    && $startTime < $currentTimePlusTwoHours
+                                ) { ?>
+                                    <tr class="opacity-50">
+                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
+                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
+                                    </tr>
+                                <?php }
+                            }
+                        } ?>
 					</table>
 				</div> <!-- end .bucket -->
 			</div> <!-- end .col -->
