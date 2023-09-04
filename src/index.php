@@ -66,11 +66,11 @@ $json = curl_exec($curl);
 /* verbose errors
 if(curl_exec($curl) === false)
 {
-    echo 'Curl error: ' . curl_error($ch);
+    echo "Curl error: " . curl_error($ch);
 }
 else
 {
-    echo 'Operation completed without any errors';
+    echo "Operation completed without any errors";
 } */
 
 // close curl
@@ -81,7 +81,7 @@ $json_data = json_decode($json);
 
 // ------------LOCAL JSON TESTING ---------------
 // Read the JSON file
-//$json = file_get_contents('data.json');
+//$json = file_get_contents("data.json");
 
 // Decode the JSON file
 //$json_data = json_decode($json,true);
@@ -355,7 +355,7 @@ function createCrewTable(
 				<div id="weather" class="container">
 					<a class="weatherwidget-io" href="https://forecast7.com/en/43d09n77d51/pittsford/?unit=us" data-label_1="PITTSFORD" data-label_2="WEATHER" data-font="Roboto" data-icons="Climacons Animated" data-days="3" data-theme="pure" >PITTSFORD WEATHER</a>
 					<script>
-					!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+					!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://weatherwidget.io/js/widget.min.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","weatherwidget-io-js");
 					</script>
 				</div> <!-- end #weather -->
 			</div> <!-- end #sidebar -->
