@@ -179,9 +179,6 @@ function createCrewTable(
 		.vehicle-card > .card > span.fa-solid {
 			font-size: 2rem;
 		}
-        .card-title {
-            font-size: 1.24rem;
-        }
 		.card-body {
 			padding: 0;
 		}
