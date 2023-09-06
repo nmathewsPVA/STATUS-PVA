@@ -89,9 +89,11 @@ $json_data = json_decode($json);
 // Print the JSON data
 // print_r($json);
 
-/** Creates a Crew Table for an inputted shift search value.
- * @param string $shiftSearchVal the search value for the desired shift of the Crew Table being created.
+/** Iterates through inputted shift data to create a Crew Table based on matching inputted shift search key and value.
  * @param mixed $json the JSON data provided from the API containing shift data.
+ * @param string $searchKey the search key to being used from the shift data.
+ * @param string $searchVal the search value to look for the provided search key.
+ * @param bool $showLevel show crew's level if true.
  * @param DateTime $currentTime the current time.
  * @param DateTime $currentTimePlusTwoHours the current time plus two hours.
  * @return void
@@ -99,8 +101,10 @@ $json_data = json_decode($json);
  * function, it should be unlikely for an Exception to occur.
  */
 function createCrewTable(
-        string   $shiftSearchVal,
         mixed    $json,
+        string   $searchKey,
+        string   $searchVal,
+        bool     $showLevel,
         DateTime $currentTime,
         DateTime $currentTimePlusTwoHours
 ): void {
@@ -108,19 +112,23 @@ function createCrewTable(
         foreach($json->shifts as $shift) {
             $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
             $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
-            if ($shift->shift_name == $shiftSearchVal && $startTime < $currentTime && $currentTime < $endTime) { ?>
+            if ($shift->$searchKey == $searchVal && $startTime < $currentTime && $currentTime < $endTime) { ?>
                 <tr>
-                    <td class=<?php echo "\"level $shift->position\"" ?>><?php echo $shift->position ?></td>
+                    <?php if ($showLevel) { ?><td class=<?php echo "\"level $shift->position\"" ?>>
+                        <?php echo $shift->position ?>
+                    </td><?php } ?>
                     <td><?php echo "$shift->first_name $shift->last_name" ?></td>
                     <td><?php echo $startTime->format("n/j  H:i") ?></td>
                     <td><?php echo $endTime->format("n/j  H:i") ?></td>
                 </tr>
-            <?php } elseif ($shift->shift_name == $shiftSearchVal
+            <?php } elseif ($shift->$searchKey == $searchVal
                 && $startTime > $currentTime
                 && $startTime < $currentTimePlusTwoHours
             ) { ?>
                 <tr class="opacity-50">
-                    <td class=<?php echo "\"level $shift->position\"" ?>><?php echo $shift->position ?></td>
+                    <?php if ($showLevel) { ?><td class=<?php echo "\"level $shift->position\"" ?>>
+                        <?php echo $shift->position ?>
+                        </td><?php } ?>
                     <td><?php echo "$shift->first_name $shift->last_name" ?></td>
                     <td><?php echo $startTime->format("n/j  H:i") ?></td>
                     <td><?php echo $endTime->format("n/j  H:i") ?></td>
