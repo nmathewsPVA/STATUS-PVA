@@ -9,7 +9,7 @@ $api_host = getenv("API_HOST");
 $api_token = getenv("API_TOKEN");
 
 // Confirm configuration variables are set
-if(!$api_host || !$api_token) echo "Error: Ensure API_HOST and API_TOKEN environment variables are set";
+if (!$api_host || !$api_token) echo "Error: Ensure API_HOST and API_TOKEN environment variables are set";
 
 /** Return an Eastern Time Zone DataTimeZone object.
  * @return DateTimeZone Eastern Time Zone.
@@ -108,7 +108,7 @@ function createCrewTable(
         DateTime $currentTime,
         DateTime $currentTimePlusTwoHours
 ): void {
-    if($json) {
+    if ($json) {
         foreach($json->shifts as $shift) {
             $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
             $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
@@ -136,8 +136,7 @@ function createCrewTable(
             <?php }
         }
     }
-}
-?>
+} ?>
 <!doctype html>
 <html lang="en">
   <head>
