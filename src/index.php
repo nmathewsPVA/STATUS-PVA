@@ -202,32 +202,14 @@ function createCrewTable(
                     <h2 class="on-call-heading">On-Call Chief</h2>
                     <table class="table">
                         <?php // iterate through JSON shifts and populate crew data for On-Call Chief
-                        $search_val_chief = "On-Call";
-                        if($json_data) {
-                            foreach($json_data->shifts as $shift) {
-                                $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
-                                $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
-                                if ($shift->position == $search_val_chief
-                                    && $startTime < $currentTime
-                                    && $currentTime < $endTime
-                                ) { ?>
-                                    <tr>
-                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
-                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
-                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
-                                    </tr>
-                                <?php } elseif ($shift->position == $search_val_chief
-                                    && $startTime > $currentTime
-                                    && $startTime < $currentTimePlusTwoHours
-                                ) { ?>
-                                    <tr class="opacity-50">
-                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
-                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
-                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
-                                    </tr>
-                                <?php }
-                            }
-                        } ?>
+                        createCrewTable(
+                            $json_data,
+                            "position",
+                            "On-Call",
+                            false,
+                            $currentTime,
+                            $currentTimePlusTwoHours
+                        ); ?>
 					</table>
 				</div> <!-- end .bucket -->
 			</div> <!-- end .col -->
@@ -236,31 +218,14 @@ function createCrewTable(
 					<h2 class="on-duty-heading">Shift Supervisor</h2>
 					<table class="table">
 						<?php // iterate through JSON shifts and populate crew data for On-Duty Supervisor
-                        if($json_data) {
-                            foreach($json_data->shifts as $shift) {
-                                $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
-                                $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
-                                if (isset($shift->observer)
-                                    && $startTime < $currentTime
-                                    && $currentTime < $endTime
-                                ) { ?>
-                                    <tr>
-                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
-                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
-                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
-                                    </tr>
-                                <?php } elseif (isset($shift->observer)
-                                    && $startTime > $currentTime
-                                    && $startTime < $currentTimePlusTwoHours
-                                ) { ?>
-                                    <tr class="opacity-50">
-                                        <td><?php echo "$shift->first_name $shift->last_name" ?></td>
-                                        <td><?php echo $startTime->format("n/j  H:i") ?></td>
-                                        <td><?php echo $endTime->format("n/j  H:i") ?></td>
-                                    </tr>
-                                <?php }
-                            }
-                        } ?>
+                        createCrewTable(
+                            $json_data,
+                            "position",
+                            "Supervisor",
+                            false,
+                            $currentTime,
+                            $currentTimePlusTwoHours
+                        ); ?>
 					</table>
 				</div> <!-- end .bucket -->
 			</div> <!-- end .col -->
@@ -282,9 +247,15 @@ function createCrewTable(
 						</div> <!-- end vehicle-card -->
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
-								<?php // iterate through JSON shifts and populate crew data for Crew 1
-                                createCrewTable("Crew 1", $json_data, $currentTime, $currentTimePlusTwoHours);
-                                ?>
+                                <?php // iterate through JSON shifts and populate crew data for Crew 1
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Crew 1",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
 							</table>
 						</div> <!-- end crew-table-wrapper -->
 					</div> <!-- end #3859 -->
@@ -300,8 +271,14 @@ function createCrewTable(
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
                                 <?php // iterate through JSON shifts and populate crew data for Crew 2
-                                createCrewTable("Crew 2", $json_data, $currentTime, $currentTimePlusTwoHours);
-                                ?>
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Crew 2",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
 					</div> <!-- end #3869 -->
@@ -317,8 +294,14 @@ function createCrewTable(
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
 								<?php // iterate through JSON shifts and populate crew data for Crew 3
-                                createCrewTable("Crew 3", $json_data, $currentTime, $currentTimePlusTwoHours);
-								?>
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Crew 3",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
 					</div> <!-- end #3879 -->
@@ -334,8 +317,14 @@ function createCrewTable(
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
 								<?php // iterate through JSON shifts and populate crew data for Crew 4
-                                createCrewTable("Crew 4", $json_data, $currentTime, $currentTimePlusTwoHours);
-								?>
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Crew 4",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
 					</div> <!-- end #MED36 -->
@@ -351,8 +340,14 @@ function createCrewTable(
 						<div class="crew-table-wrapper col-11">
 							<table class="table crew">
 								<?php // iterate through JSON shifts and populate crew data for Crew 5
-                                createCrewTable("Crew 5", $json_data, $currentTime, $currentTimePlusTwoHours);
-								?>
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Crew 5",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
 							</table>
 						</div> <!-- end crew-table-wrapper -->
 					</div> <!-- end #MED38 -->
