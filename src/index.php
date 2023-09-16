@@ -221,7 +221,7 @@ function createCrewTable(
                         createCrewTable(
                             $json_data,
                             "position",
-                            "Supervisor",
+                            "On-Duty",
                             false,
                             $currentTime,
                             $currentTimePlusTwoHours
