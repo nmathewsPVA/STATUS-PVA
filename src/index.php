@@ -236,7 +236,7 @@ function createCrewTable(
 			<div id="duty-crew-wrapper" class="col-9">
 				<h2 class="duty-crew-heading">On-Duty Crews</h2>
 				<div class="vehicles container">
-					<div id="3859" class="vehicle row d-flex align-items-center">
+					<div id="Crew1" class="vehicle row d-flex align-items-center">
 						<div class="vehicle-card col-1">
 							<div class="card text-center">
 								<span class="fa-solid fa-truck-medical"></span>
@@ -258,8 +258,8 @@ function createCrewTable(
                                 ); ?>
 							</table>
 						</div> <!-- end crew-table-wrapper -->
-					</div> <!-- end #3859 -->
-					<div id="3869" class="vehicle row d-flex align-items-center" style="background: #efefef;">
+					</div> <!-- end #Crew1 -->
+					<div id="Crew2" class="vehicle row d-flex align-items-center" style="background: #efefef;">
 						<div class="vehicle-card col-1">
 							<div class="card text-center">
 								<span class="fa-solid fa-truck-medical"></span>
@@ -281,8 +281,8 @@ function createCrewTable(
                                 ); ?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
-					</div> <!-- end #3869 -->
-					<div id="3879" class="vehicle row d-flex align-items-center">
+					</div> <!-- end #Crew2 -->
+					<div id="Crew3" class="vehicle row d-flex align-items-center">
 						<div class="vehicle-card col-1">
 							<div class="card text-center">
 								<span class="fa-solid fa-truck-medical"></span>
