@@ -304,19 +304,19 @@ function createCrewTable(
                                 ); ?>
 							</table>
 						</div> <!-- end .crew-table-wrapper -->
-					</div> <!-- end #3879 -->
-					<div id="MED36" class="vehicle row d-flex align-items-center" style="background: #efefef;">
-						<div class="vehicle-card col-1">
-							<div class="card text-center">
-								<span class="fa-solid fa-car-side"></span>
-							</div> <!-- end .vehicle-card -->
-							<div class="card-body">
-								<h5 class="card-title text-center">Crew 4</h5>
-							</div> <!-- end .card-body -->
-						</div>
-						<div class="crew-table-wrapper col-11">
-							<table class="table crew">
-								<?php // iterate through JSON shifts and populate crew data for Crew 4
+					</div> <!-- end #Crew3 -->
+                    <div id="Crew4" class="vehicle row d-flex align-items-center" style="background: #efefef;">
+                        <div class="vehicle-card col-1">
+                            <div class="card text-center">
+                                <span class="fa-solid fa-truck-medical"></span>
+                            </div> <!-- end .card -->
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Crew 4</h5>
+                            </div> <!-- end .card-body -->
+                        </div>
+                        <div class="crew-table-wrapper col-11">
+                            <table class="table crew">
+                                <?php // iterate through JSON shifts and populate crew data for Crew 4
                                 createCrewTable(
                                     $json_data,
                                     "shift_name",
@@ -325,21 +325,21 @@ function createCrewTable(
                                     $currentTime,
                                     $currentTimePlusTwoHours
                                 ); ?>
-							</table>
-						</div> <!-- end .crew-table-wrapper -->
-					</div> <!-- end #MED36 -->
-					<div id="MED38" class="vehicle row d-flex align-items-center">
-						<div class="vehicle-card col-1">
-							<div class="card text-center">
-								<span class="fa-solid fa-car-side"></span>
-							</div> <!-- end .vehicle-card -->
-							<div class="card-body">
-								<h5 class="card-title text-center">Crew 5</h5>
-							</div> <!-- end .card-body -->
-						</div>
-						<div class="crew-table-wrapper col-11">
-							<table class="table crew">
-								<?php // iterate through JSON shifts and populate crew data for Crew 5
+                            </table>
+                        </div> <!-- end .crew-table-wrapper -->
+                    </div> <!-- end #Crew4 -->
+                    <div id="Crew5" class="vehicle row d-flex align-items-center">
+                        <div class="vehicle-card col-1">
+                            <div class="card text-center">
+                                <span class="fa-solid fa-truck-medical"></span>
+                            </div> <!-- end .card -->
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Crew 5</h5>
+                            </div> <!-- end .card-body -->
+                        </div>
+                        <div class="crew-table-wrapper col-11">
+                            <table class="table crew">
+                                <?php // iterate through JSON shifts and populate crew data for Crew 5
                                 createCrewTable(
                                     $json_data,
                                     "shift_name",
@@ -348,9 +348,55 @@ function createCrewTable(
                                     $currentTime,
                                     $currentTimePlusTwoHours
                                 ); ?>
+                            </table>
+                        </div> <!-- end .crew-table-wrapper -->
+                    </div> <!-- end #Crew5 -->
+					<div id="Medic36" class="vehicle row d-flex align-items-center" style="background: #efefef;">
+						<div class="vehicle-card col-1">
+							<div class="card text-center">
+								<span class="fa-solid fa-car-side"></span>
+							</div> <!-- end .vehicle-card -->
+							<div class="card-body">
+								<h5 class="card-title text-center">Medic 36</h5>
+							</div> <!-- end .card-body -->
+						</div>
+						<div class="crew-table-wrapper col-11">
+							<table class="table crew">
+								<?php // iterate through JSON shifts and populate crew data for Medic 36
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Medic 36",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
+							</table>
+						</div> <!-- end .crew-table-wrapper -->
+					</div> <!-- end #Medic36 -->
+					<div id="Medic38" class="vehicle row d-flex align-items-center">
+						<div class="vehicle-card col-1">
+							<div class="card text-center">
+								<span class="fa-solid fa-car-side"></span>
+							</div> <!-- end .vehicle-card -->
+							<div class="card-body">
+								<h5 class="card-title text-center">Medic 38</h5>
+							</div> <!-- end .card-body -->
+						</div>
+						<div class="crew-table-wrapper col-11">
+							<table class="table crew">
+								<?php // iterate through JSON shifts and populate crew data for Medic 38
+                                createCrewTable(
+                                    $json_data,
+                                    "shift_name",
+                                    "Medic 38",
+                                    true,
+                                    $currentTime,
+                                    $currentTimePlusTwoHours
+                                ); ?>
 							</table>
 						</div> <!-- end crew-table-wrapper -->
-					</div> <!-- end #MED38 -->
+					</div> <!-- end #Medic38 -->
 				</div> <!-- end .vehicles .container -->
 			</div> <!-- end #duty-crew-wrapper -->
 			<div id="sidebar" class="col-3">
