@@ -119,7 +119,7 @@ function createCrewTable(
                 <tr>
                     <?php if ($showLevel) { ?><td class=<?php echo "\"level $shift->position\"" ?>>
                         <?php echo $shift->position ?>
-                    </td><?php } ?>
+                        </td><?php } ?>
                     <td><?php echo "$shift->first_name $shift->last_name" ?></td>
                     <td><?php echo $startTime->format("n/j  H:i") ?></td>
                     <td><?php echo $endTime->format("n/j  H:i") ?></td>
