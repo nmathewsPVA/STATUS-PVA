@@ -39,6 +39,115 @@ function convertToEst(DateTime $dateTime): DateTime {
     return $dateTime->setTimezone(estTimeZone());
 }
 
+/** Creates the regex pattern string for inputted patterns.
+ * @param array $patterns array of patterns to search for.
+ * @return string regex pattern string looking for one of the provided patterns at the beginning of the string.
+ */
+function createRegex(array $patterns): string {
+    $regex = "/";
+    foreach ($patterns as $i=>$pattern) {
+        if ($i != 0) {
+            $regex .= "|";
+        }
+        $regex .= "(?:^$pattern.*$)";
+    }
+    $regex .= "/";
+    return $regex;
+}
+
+/** Adds inputted shift to inputted status.
+ * @param array $status reference to status array containing all parsed shifts.
+ * @param mixed $shift shift data.
+ * @param string $operations operations shift name.
+ * @param string $on_call_position on-call position name.
+ * @param string $supervisor_position supervisor position name.
+ * @return void
+ */
+function addShiftToStatus(
+    array &$status,
+    mixed $shift,
+    string $operations,
+    string $on_call_position,
+    string $supervisor_position
+): void {
+    if ($shift->shift_name == $operations) {
+        switch ($shift->position) {
+            case $on_call_position:
+                $status[$on_call_position][] = $shift;
+                break;
+            case $supervisor_position:
+                $status[$supervisor_position][] = $shift;
+                break;
+        }
+    } else {
+        $status[$shift->shift_name][] = $shift;
+    }
+}
+
+/** Get shift icon of inputted shift.
+ * @param array $shift_icons array of shift icons.
+ * @param string $shift shift.
+ * @return string shift icon of inputted shift or empty string if no icon exists for inputted shift.
+ */
+function getShiftIcon(array $shift_icons, string $shift): string {
+    foreach ($shift_icons as $shift_name=>$shift_icon) {
+        if (str_contains($shift, $shift_name)) {
+            return $shift_icon;
+        }
+    }
+    return "";
+}
+
+
+/** Outputs inputted shifts in a standardized Crew Table.
+ * @param mixed $shifts shift data.
+ * @param bool $showLevel show crew's level if true.
+ * @return void
+ */
+function createCrewTable(mixed $shifts, bool $showLevel): void {
+    foreach($shifts as $shift) { ?>
+        <tr<?php if (property_exists($shift, "future") && $shift->future) { ?> class="opacity-50" <?php }?>>
+            <?php if ($showLevel) { ?><td class="<?php echo "level $shift->position" ?>">
+                <?php echo $shift->position ?>
+                </td><?php } ?>
+            <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+            <td><?php echo $shift->start_time->format("n/j  H:i") ?></td>
+            <td><?php echo $shift->end_time->format("n/j  H:i") ?></td>
+        </tr>
+    <?php }
+}
+
+/** Displays a Crew Table based on inputted shift data.
+ * @param string $shift_name shift name.
+ * @param mixed $shifts shift data.
+ * @param int $row_number row number for this Crew Table.
+ * @param string $vehicle_icon vehicle icon for the shift.
+ * @return void
+ * @throws Exception DateTime can technically throw an Exception, but with how the DateTime objects are created in this
+ * app, it should be unlikely for an Exception to occur.
+ */
+function displayCrewTable(string $shift_name, mixed $shifts, int $row_number, string $vehicle_icon): void { ?>
+    <div id="<?php echo str_replace(" ", "", $shift_name) ?>"
+         class="vehicle row d-flex align-items-center"<?php if ($row_number % 2 != 0) {
+        echo " style=\"background: #efefef;\"";
+    } ?>>
+        <div class="vehicle-card col-1">
+            <div class="card text-center">
+                <span class="fa-solid <?php echo $vehicle_icon ?>"></span>
+            </div> <!-- end .card -->
+            <div class="card-body">
+                <h5 class="card-title text-center"><?php echo $shift_name ?></h5>
+            </div> <!-- end .card-body -->
+        </div> <!-- end .vehicle-card -->
+        <div class="crew-table-wrapper col-11">
+            <table class="table crew">
+                <?php // Populate crew data for $shift_name
+                createCrewTable($shifts, true); ?>
+            </table>
+        </div> <!-- end .crew-table-wrapper -->
+    </div> <!-- end #$shift_name -->
+<?php }
+
 // Get current time
 $currentTime = new DateTime("now", estTimeZone());
 
@@ -98,51 +207,29 @@ $startTimer = new DateTime("now", estTimeZone());
 // Print the JSON data
 // print_r($json);
 
-/** Iterates through inputted shift data to create a Crew Table based on matching inputted shift search key and value.
- * @param mixed $json the JSON data provided from the API containing shift data.
- * @param string $searchKey the search key to being used from the shift data.
- * @param string $searchVal the search value to look for the provided search key.
- * @param bool $showLevel show crew's level if true.
- * @param DateTime $currentTime the current time.
- * @param DateTime $currentTimePlusTwoHours the current time plus two hours.
- * @return void
- * @throws Exception DateTime can technically throw an Exception, but with how the DateTime objects are created in this
- * function, it should be unlikely for an Exception to occur.
- */
-function createCrewTable(
-        mixed    $json,
-        string   $searchKey,
-        string   $searchVal,
-        bool     $showLevel,
-        DateTime $currentTime,
-        DateTime $currentTimePlusTwoHours
-): void {
-    if ($json) {
-        foreach($json->shifts as $shift) {
-            $startTime = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
-            $endTime = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
-            if ($shift->$searchKey == $searchVal && $startTime < $currentTime && $currentTime < $endTime) { ?>
-                <tr>
-                    <?php if ($showLevel) { ?><td class=<?php echo "\"level $shift->position\"" ?>>
-                        <?php echo $shift->position ?>
-                        </td><?php } ?>
-                    <td><?php echo "$shift->first_name $shift->last_name" ?></td>
-                    <td><?php echo $startTime->format("n/j  H:i") ?></td>
-                    <td><?php echo $endTime->format("n/j  H:i") ?></td>
-                </tr>
-            <?php } elseif ($shift->$searchKey == $searchVal
-                && $startTime > $currentTime
-                && $startTime < $currentTimePlusTwoHours
-            ) { ?>
-                <tr class="opacity-50">
-                    <?php if ($showLevel) { ?><td class=<?php echo "\"level $shift->position\"" ?>>
-                        <?php echo $shift->position ?>
-                        </td><?php } ?>
-                    <td><?php echo "$shift->first_name $shift->last_name" ?></td>
-                    <td><?php echo $startTime->format("n/j  H:i") ?></td>
-                    <td><?php echo $endTime->format("n/j  H:i") ?></td>
-                </tr>
-            <?php }
+// Define the status array that contains the parsed, current shifts.
+$status = [];
+
+// Create regex pattern used to search for shifts to show on status board.
+$shift_search_terms = [$operations];
+foreach ($shift_types_icon as $shift_type=>$icon) {
+    $shift_search_terms[] = $shift_type;
+}
+$shift_names = createRegex($shift_search_terms);
+
+// Parse shift data to get current (and future shifts starting in the next two hours).
+if ($json_data) {
+    foreach ($json_data->shifts as $shift) {
+        $shift->start_time = convertToEst(new DateTime($shift->start_time, utcTimeZone()));
+        $shift->end_time = convertToEst(new DateTime($shift->end_time, utcTimeZone()));
+        if ($shift->start_time < $currentTime && $currentTime < $shift->end_time && preg_match($shift_names, $shift->shift_name)) {
+            addShiftToStatus($status, $shift, $operations, $on_call_position, $supervisor_position);
+        } elseif ($shift->start_time > $currentTime
+            && $shift->start_time < $currentTimePlusTwoHours
+            && preg_match($shift_names, $shift->shift_name)
+        ) {
+            $shift->future = true;
+            addShiftToStatus($status, $shift, $operations, $on_call_position, $supervisor_position);
         }
     }
 } ?>
