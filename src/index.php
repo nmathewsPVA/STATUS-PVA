@@ -313,15 +313,10 @@ if ($json_data) {
 				<div class="container-fluid bucket">
 					<h2 class="on-duty-heading">Shift Supervisor</h2>
 					<table class="table">
-						<?php // iterate through JSON shifts and populate crew data for On-Duty Supervisor
-                        createCrewTable(
-                            $json_data,
-                            "position",
-                            "On-Duty",
-                            false,
-                            $currentTime,
-                            $currentTimePlusTwoHours
-                        ); ?>
+						<?php // Populate crew data for On-Duty Supervisor
+                        if (array_key_exists($supervisor_position, $status)) {
+                            createCrewTable($status[$supervisor_position], false);
+                        } ?>
 					</table>
 				</div> <!-- end .bucket -->
 			</div> <!-- end .col -->
