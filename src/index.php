@@ -194,9 +194,6 @@ curl_close($curl);
 // decode json data into usable object
 $json_data = json_decode($json);
 
-// Start timer
-$startTimer = new DateTime("now", estTimeZone());
-
 // ------------LOCAL JSON TESTING ---------------
 // Read the JSON file
 //$json = file_get_contents("data.json");
@@ -333,8 +330,6 @@ if ($json_data) {
                     } ?>
 				</div> <!-- end .vehicles .container -->
 			</div> <!-- end #duty-crew-wrapper -->
-            <?php // End timer
-            $endTimer = new DateTime("now", estTimeZone()); ?>
 			<div id="sidebar" class="col-3">
 				<div id="weather" class="container">
 					<a class="weatherwidget-io" href="https://forecast7.com/en/43d09n77d51/pittsford/?unit=us" data-label_1="PITTSFORD" data-label_2="WEATHER" data-font="Roboto" data-icons="Climacons Animated" data-days="3" data-theme="pure" >PITTSFORD WEATHER</a>
@@ -358,6 +353,3 @@ if ($json_data) {
     -->
   </body>
 </html>
-<?php // Output timer duration
-$interval = $startTimer->diff($endTimer);
-echo $interval->format("%s.%Fs"); ?>
