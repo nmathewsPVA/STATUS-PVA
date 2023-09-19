@@ -162,8 +162,13 @@ $yesterday = clone $currentTime;
 $oneDayInterval = DateInterval::createFromDateString("1 day");
 $yesterday->sub($oneDayInterval);
 
+// Get tomorrow's date
+$tomorrow = clone $currentTime;
+$tomorrow->add($oneDayInterval);
+
 // JSON data feed URL
-$url = "https://$api_host/eschedule_api/product/read.php?start_time=" . $yesterday->format("Y-m-d");
+$url = "https://$api_host/eschedule_api/product/read.php?start_time=" . $yesterday->format("Y-m-d")
+    . "&end_time=" . $tomorrow->format("Y-m-d");
 
 // set up curl request
 $curl = curl_init($url);
