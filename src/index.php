@@ -8,7 +8,7 @@ PVA's internal Vehicle Status Board
 $operations = "Operations ";
 $on_call_position = "On-Call";
 $supervisor_position = "On-Duty";
-$shift_types_icon = ["Crew" => "fa-truck-medical", "Medic" => "fa-car-side"];
+$shift_types_icon = ["Crew" => "fa-truck-medical", "Event Crew" => "fa-truck-medical", "Medic" => "fa-car-side"];
 
 // Load configuration variables
 $api_host = getenv("API_HOST");
