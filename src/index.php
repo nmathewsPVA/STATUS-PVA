@@ -113,6 +113,7 @@ function createCrewTable(mixed $shifts, bool $showLevel): void {
             <td><?php echo "$shift->first_name $shift->last_name" ?></td>
             <td><?php echo $shift->start_time->format("n/j  H:i") ?></td>
             <td><?php echo $shift->end_time->format("n/j  H:i") ?></td>
+            <?php if ($shift->shift_notes) ?><td><?php echo $shift->shift_notes ?></td>
         </tr>
     <?php }
 }
