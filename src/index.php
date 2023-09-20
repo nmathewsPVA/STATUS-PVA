@@ -98,6 +98,17 @@ function getShiftIcon(array $shift_icons, string $shift): string {
     return "";
 }
 
+/** Gets EMT level string with inputted level code.
+ * @param string $level_code EMT level code.
+ * @return string EMT Level string or empty string if invalid code is provided.
+ */
+function getLevel(string $level_code): string {
+    return match ($level_code) {
+        "P" => "ALS",
+        "B" => "BLS",
+        default => "",
+    };
+}
 
 /** Outputs inputted shifts in a standardized Crew Table.
  * @param mixed $shifts shift data.
@@ -107,9 +118,16 @@ function getShiftIcon(array $shift_icons, string $shift): string {
 function createCrewTable(mixed $shifts, bool $showLevel): void {
     foreach($shifts as $shift) { ?>
         <tr<?php if (property_exists($shift, "future") && $shift->future) { ?> class="opacity-50" <?php }?>>
-            <?php if ($showLevel) { ?><td class="<?php echo "level $shift->position" ?>">
-                <?php echo $shift->position ?>
-                </td><?php } ?>
+            <?php if ($showLevel) {
+                if (empty($shift->emt_level_code)) {
+                    $level_code = "";
+                } else {
+                    $level_code = getLevel($shift->emt_level_code);
+                } ?>
+                <td class="<?php echo "level $level_code" ?>">
+                    <?php echo $level_code ?>
+                </td>
+            <?php } ?>
             <td><?php echo "$shift->first_name $shift->last_name" ?></td>
             <td><?php echo $shift->start_time->format("n/j  H:i") ?></td>
             <td><?php echo $shift->end_time->format("n/j  H:i") ?></td>
