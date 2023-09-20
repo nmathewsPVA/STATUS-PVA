@@ -290,7 +290,7 @@ if ($json_data) {
 		}
 	</style>
     <title>PVA Status Board</title>
-	<link href="assets/fontawesome-free-6.0.0-web/css/all.css" rel="stylesheet" >
+	<link href="assets/fontawesome-free-6.4.2-web/css/all.css" rel="stylesheet" >
   </head>
   <body>
 	<h1 class="text-center">PVA Status Board</h1>
