@@ -145,8 +145,9 @@ function createCrewTable(mixed $shifts, bool $showLevel): void {
  * @throws Exception DateTime can technically throw an Exception, but with how the DateTime objects are created in this
  * app, it should be unlikely for an Exception to occur.
  */
-function displayCrewTable(string $shift_name, mixed $shifts, int $row_number, string $vehicle_icon): void { ?>
-    <div id="<?php echo str_replace(" ", "", $shift_name) ?>"
+function displayCrewTable(string $shift_name, mixed $shifts, int $row_number, string $vehicle_icon): void {
+    $div_id = str_replace(" ", "", $shift_name); ?>
+    <div id="<?php echo $div_id ?>"
          class="vehicle row d-flex align-items-center"<?php if ($row_number % 2 != 0) {
         echo " style=\"background: #efefef;\"";
     } ?>>
@@ -164,7 +165,7 @@ function displayCrewTable(string $shift_name, mixed $shifts, int $row_number, st
                 createCrewTable($shifts, true); ?>
             </table>
         </div> <!-- end .crew-table-wrapper -->
-    </div> <!-- end #$shift_name -->
+    </div> <!-- end #<?php echo $div_id ?> -->
 <?php }
 
 // Get current time
