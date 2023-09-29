@@ -129,6 +129,7 @@ function createCrewTable(mixed $shifts, bool $showLevel): void {
                 </td>
             <?php } ?>
             <td><?php echo "$shift->first_name $shift->last_name" ?></td>
+            <td><?php echo $shift->cell_phone ?></td>
             <td><?php echo $shift->start_time->format("n/j  H:i") ?></td>
             <td><?php echo $shift->end_time->format("n/j  H:i") ?></td>
             <?php if ($shift->shift_notes) ?><td><?php echo $shift->shift_notes ?></td>
@@ -186,8 +187,8 @@ $tomorrow = clone $currentTime;
 $tomorrow->add($oneDayInterval);
 
 // JSON data feed URL
-$url = "https://$api_host/eschedule_api/product/read.php?start_time=" . $yesterday->format("Y-m-d")
-    . "&end_time=" . $tomorrow->format("Y-m-d");
+$url = "https://$api_host/eschedule_api/product/read.php?include_cell_phone=true&start_time="
+    . $yesterday->format("Y-m-d") . "&end_time=" . $tomorrow->format("Y-m-d");
 
 // set up curl request
 $curl = curl_init($url);
