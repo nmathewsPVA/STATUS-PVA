@@ -1,0 +1,9 @@
+services:
+  status-pva:
+    build:
+      context: .
+    container_name: status-pva
+    env_file: .env
+    ports:
+      - 80:80
+    restart: unless-stopped
