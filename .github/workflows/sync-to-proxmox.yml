@@ -1,0 +1,24 @@
+name: Sync to Proxmox
+
+# Build on push to the main branch
+on:
+  push:
+    branches: [ master]
+
+jobs:
+# Make sure the job runs on the self-hosted runner
+  build-test-store:
+    runs-on: self-hosted
+    steps:
+    - name: Check out the respository
+      uses: actions/checkout@master
+    - name: Install Dependencies
+      run: |
+        apt update && apt install make
+    - name: Build
+      run: make build
+    - name: Store artifacts
+      uses: actions/upload-artifact@master
+      with:
+        name: status-pva-${{ github.sha }}
+        path: ./build
