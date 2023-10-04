@@ -5,7 +5,7 @@ Internal crew status board that pulls from PVA's internal crew scheduler API.
 This application runs inside a Docker container. The following terminal commands are required to run this app locally:
 
 - `docker`
-- `docker-compose`
+- `docker compose`
 - `make`
 
 Additionally, a configuration file called `.env` must be created in the repo's root directory. An example of this file
