@@ -14,7 +14,7 @@ jobs:
       uses: actions/checkout@main
     - name: Install Dependencies
       run: |
-        sudo apt update && apt install -y make
+        sudo apt update && sudo apt install -y make
     - name: Build
       run: make build
     - name: Store artifacts
