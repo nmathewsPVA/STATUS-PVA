@@ -12,9 +12,9 @@ jobs:
     steps:
     - name: Check out the respository
       uses: actions/checkout@main
- #   - name: Install Dependencies
- #     run: |
- #       sudo apt update && apt install make
+    - name: Install Dependencies
+      run: |
+        sudo apt update && apt install -y make
     - name: Build
       run: make build
     - name: Store artifacts
